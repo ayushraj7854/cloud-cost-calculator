@@ -1,20 +1,20 @@
-// frontend/src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
+import Header from './components/Header';
 import Home from './pages/Home';
 import Calculator from './pages/Calculator';
 import About from './pages/About';
 import Documentation from './pages/Documentation';
-import './styles/globals.css';
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div style={{ minHeight: '100vh' }}>
+        {/* Navigation Header */}
         <Header />
-        <main className="flex-grow">
+        
+        {/* Main Content */}
+        <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/calculator" element={<Calculator />} />
@@ -22,7 +22,6 @@ function App() {
             <Route path="/docs" element={<Documentation />} />
           </Routes>
         </main>
-        <Footer />
       </div>
     </Router>
   );

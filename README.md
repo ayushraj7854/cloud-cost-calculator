@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ```markdown
 # Cloud Cost Calculator
 
@@ -159,3 +160,7 @@ If you have any questions or need help, please:
 
 ⭐ If you find this project helpful, please give it a star!
 ```
+=======
+# cloud-cost-calculator
+A comprehensive tool to compare cloud costs across AWS, Azure, and Google Cloud Platform
+>>>>>>> 10ee0046d063a17b982e2a14112bcdf475e9e323
