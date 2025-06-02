@@ -1,610 +1,403 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import './About.css';
 
 const About = () => {
-  const features = [
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved ? JSON.parse(saved) : true;
+  });
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const saved = localStorage.getItem('darkMode');
+      setIsDarkMode(saved ? JSON.parse(saved) : true);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  // Updated team members data with corrected roles
+  const teamMembers = [
     {
-      title: 'Real-Time Pricing',
-      description: 'Get up-to-date pricing information directly from cloud provider APIs.',
-      icon: 'PRICE'
+      id: 1,
+      name: "Ayush Raj",
+      role: "Frontend Developer & UI/UX Designer",
+      specialization: "Frontend Development",
+      description: "Designed and implemented the React.js user interface with modern, responsive components and interactive data visualizations. Created the complete frontend architecture with professional animations and user experience.",
+      skills: ["React.js", "JavaScript", "CSS3", "HTML5", "UI/UX Design", "Responsive Design", "Data Visualization", "Animation"],
+      achievements: [
+        "Built complete React.js frontend application",
+        "Created interactive charts and analytics dashboard",
+        "Implemented dark/light mode with professional animations",
+        "Developed responsive design for all devices",
+        "Designed accessible, user-friendly interfaces"
+      ],
+      avatar: "👨‍💻",
+      gradient: "from-blue-500 to-purple-600",
+      github: "https://github.com/ayushraj7854",
+      portfolio: "#",
+      linkedin: "#"
     },
     {
-      title: 'Comprehensive Coverage',
-      description: 'Compare compute, storage, database, and networking services across all major providers.',
-      icon: 'COVERAGE'
+      id: 2,
+      name: "Aditya Mishra",
+      role: "Backend Developer & DevOps Engineer",
+      specialization: "Backend Development",
+      description: "Architected and developed the robust Node.js/Express.js API with comprehensive security, logging, and caching features. Built the complete server-side infrastructure and database integration.",
+      skills: ["Node.js", "Express.js", "RESTful APIs", "JavaScript", "DevOps", "Security", "Database Design", "API Architecture"],
+      achievements: [
+        "Built scalable RESTful API architecture",
+        "Implemented comprehensive security middleware",
+        "Set up logging, caching, and monitoring systems",
+        "Configured development and production environments",
+        "Created robust backend with error handling"
+      ],
+      avatar: "⚙️",
+      gradient: "from-purple-500 to-indigo-600",
+      github: "https://github.com/adityamishra",
+      portfolio: "#",
+      linkedin: "#"
     },
     {
-      title: 'Accurate Calculations',
-      description: 'Our algorithms mirror the exact pricing models used by cloud providers.',
-      icon: 'CALC'
+      id: 3,
+      name: "Aman Pratap Shahi",
+      role: "Technical Writer & Documentation Specialist",
+      specialization: "Documentation & Project Management",
+      description: "Created comprehensive project documentation, user guides, and technical specifications. Managed project coordination and ensured proper documentation standards throughout development.",
+      skills: ["Technical Writing", "Project Management", "Documentation", "API Documentation", "User Guides", "Quality Assurance", "Content Creation"],
+      achievements: [
+        "Developed comprehensive project documentation",
+        "Created detailed API documentation and guides",
+        "Wrote user manuals and technical specifications",
+        "Coordinated team collaboration and workflows",
+        "Ensured documentation quality and standards"
+      ],
+      avatar: "📚",
+      gradient: "from-orange-500 to-red-600",
+      github: "https://github.com/amanpratapshahi",
+      portfolio: "#",
+      linkedin: "#"
     },
     {
-      title: 'Multi-Region Support',
-      description: 'Compare costs across different geographic regions to optimize for location.',
-      icon: 'REGIONS'
+      id: 4,
+      name: "Anand Singh",
+      role: "Data Collector & Research Specialist",
+      specialization: "Data Collection & Analysis",
+      description: "Researched and collected comprehensive cloud pricing data from AWS, Azure, and GCP. Analyzed pricing structures and developed data models for accurate cost calculations.",
+      skills: ["Data Collection", "Research", "Cloud Pricing Analysis", "Data Analysis", "Pricing Models", "Market Research", "Data Validation"],
+      achievements: [
+        "Collected comprehensive cloud pricing data",
+        "Researched AWS, Azure, and GCP pricing models",
+        "Analyzed multi-dimensional pricing structures",
+        "Validated data accuracy and completeness",
+        "Created structured pricing datasets"
+      ],
+      avatar: "📊",
+      gradient: "from-green-500 to-teal-600",
+      github: "https://github.com/anandsingh",
+      portfolio: "#",
+      linkedin: "#"
     }
   ];
 
-  const team = [
-    {
-      name: 'Ayush Raj',
-      role: 'DevOps Engineer & Cloud Specialist',
-      description: 'Handles deployment, cloud infrastructure, and DevOps practices. Ensures scalable and reliable application performance.',
-      avatar: 'AR',
-      skills: ['Docker', 'AWS', 'CI/CD', 'Cloud Deployment']
-    },
-    {
-      name: 'Aditya Mishra',
-      role: 'Backend Developer & Database Architect',
-      description: 'Specialized in backend development and database design. Responsible for API development and data management systems.',
-      avatar: 'AM',
-      skills: ['Node.js', 'PostgreSQL', 'API Design', 'Database Optimization']
-    },
-    {
-      name: 'Anand Singh',
-      role: 'Frontend Developer & UI Designer',
-      description: 'Expert in frontend technologies and user interface design. Focused on creating responsive and intuitive user experiences.',
-      avatar: 'AS',
-      skills: ['React', 'JavaScript', 'CSS', 'Responsive Design']
-    },
-    {
-      name: 'Aman Pratap Shahi',
-      role: 'Project Lead & Full Stack Developer',
-      description: 'Final year computer science student passionate about cloud technologies and cost optimization. Leading the project development and architecture.',
-      avatar: 'APS',
-      skills: ['React', 'Node.js', 'Cloud Architecture', 'UI/UX Design']
-    }
-  ];
-
-  const stats = [
-    { label: 'Cloud Providers', value: '3' },
-    { label: 'Service Types', value: '12+' },
-    { label: 'Regions Supported', value: '20+' },
-    { label: 'Cost Calculations', value: '1000+' }
+  const projectStats = [
+    { label: "Lines of Code", value: "5,000+", icon: "💻" },
+    { label: "API Endpoints", value: "12+", icon: "🔗" },
+    { label: "Components", value: "25+", icon: "🧩" },
+    { label: "Development Hours", value: "200+", icon: "⏰" }
   ];
 
   const technologies = [
-    { name: 'React', description: 'Frontend Framework', icon: 'R' },
-    { name: 'Node.js', description: 'Backend Runtime', icon: 'N' },
-    { name: 'PostgreSQL', description: 'Database', icon: 'P' },
-    { name: 'Tailwind CSS', description: 'Styling', icon: 'T' }
+    { name: "React.js", icon: "⚛️", category: "Frontend" },
+    { name: "Node.js", icon: "🟢", category: "Backend" },
+    { name: "Express.js", icon: "🚀", category: "Backend" },
+    { name: "JavaScript", icon: "💛", category: "Language" },
+    { name: "CSS3", icon: "🎨", category: "Styling" },
+    { name: "RESTful APIs", icon: "🔄", category: "Architecture" },
+    { name: "Git", icon: "📝", category: "Version Control" },
+    { name: "Responsive Design", icon: "📱", category: "UI/UX" }
   ];
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      {/* Hero Section */}
-      <section style={{
-        background: 'rgba(255, 255, 255, 0.95)',
-        padding: '80px 20px',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h1 style={{
-            fontSize: '3rem',
-            fontWeight: 'bold',
-            color: '#2d3748',
-            marginBottom: '20px'
-          }}>
-            About Cloud Cost Calculator
-          </h1>
-          <p style={{
-            fontSize: '1.3rem',
-            color: '#4a5568',
-            marginBottom: '40px',
-            maxWidth: '800px',
-            margin: '0 auto',
-            lineHeight: '1.6'
-          }}>
-            A comprehensive tool designed to help businesses and developers make 
-            informed decisions about their cloud infrastructure costs.
-          </p>
-        </div>
-      </section>
-
-      {/* Mission Section */}
-      <section style={{
-        padding: '80px 20px',
-        backgroundColor: 'rgba(255, 255, 255, 0.1)'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
-            gap: '60px',
-            alignItems: 'center'
-          }}>
-            <div>
-              <h2 style={{
-                fontSize: '2.5rem',
-                fontWeight: 'bold',
-                color: 'white',
-                marginBottom: '30px'
-              }}>
-                Our Mission
-              </h2>
-              <p style={{
-                fontSize: '1.2rem',
-                color: 'rgba(255, 255, 255, 0.9)',
-                marginBottom: '25px',
-                lineHeight: '1.6'
-              }}>
-                Cloud computing has revolutionized how we build and deploy applications, 
-                but choosing the right provider and configuration can be overwhelming. 
-                Our mission is to simplify this decision-making process by providing 
-                transparent, accurate, and easy-to-understand cost comparisons.
-              </p>
-              <p style={{
-                fontSize: '1.2rem',
-                color: 'rgba(255, 255, 255, 0.9)',
-                marginBottom: '25px',
-                lineHeight: '1.6'
-              }}>
-                Whether you are a startup looking to optimize costs or an enterprise 
-                planning a multi-cloud strategy, our calculator provides the insights 
-                you need to make informed decisions.
-              </p>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '20px',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: '10px',
-                marginTop: '30px'
-              }}>
-                <div style={{
-                  width: '50px',
-                  height: '50px',
-                  backgroundColor: '#ffd700',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginRight: '15px',
-                  fontSize: '1.5rem'
-                }}>
-                  💡
-                </div>
-                <span style={{
-                  fontSize: '1.1rem',
-                  fontWeight: 'bold',
-                  color: 'white'
-                }}>
-                  Built by developers, for developers
-                </span>
-              </div>
+    <div className={`about-container ${isDarkMode ? 'dark' : 'light'}`}>
+      {/* Header Section */}
+      <header className="about-header">
+        <div className="header-content">
+          <div className="logo-section">
+            <div className="logo-animation">
+              <div className="logo-ring ring-1"></div>
+              <div className="logo-ring ring-2"></div>
+              <div className="logo-ring ring-3"></div>
+              <div className="logo-center">☁️</div>
             </div>
-            
-            <div style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.95)',
-              borderRadius: '15px',
-              padding: '40px',
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)'
-            }}>
-              <h3 style={{
-                fontSize: '1.8rem',
-                fontWeight: 'bold',
-                color: '#2d3748',
-                marginBottom: '20px'
-              }}>
-                Why This Matters
-              </h3>
-              <ul style={{
-                listStyle: 'none',
-                padding: 0,
-                margin: 0
-              }}>
-                {[
-                  'Cloud costs can vary by up to 300% between providers',
-                  'Wrong choices can lead to significant budget overruns',
-                  'Optimization can save companies thousands per month',
-                  'Transparency helps in budget planning and forecasting'
-                ].map((item, index) => (
-                  <li key={index} style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    marginBottom: '15px',
-                    fontSize: '1.1rem',
-                    color: '#4a5568'
-                  }}>
-                    <span style={{
-                      color: '#667eea',
-                      marginRight: '10px',
-                      fontSize: '1.2rem',
-                      fontWeight: 'bold'
-                    }}>
-                      •
-                    </span>
-                    {item}
-                  </li>
+            <div className="title-section">
+              <h1 className="main-title">About CloudCalc Pro</h1>
+              <p className="subtitle">Advanced Cloud Cost Analytics & Optimization Platform</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="about-main">
+        {/* Project Overview */}
+        <section className="project-overview">
+          <div className="section-content">
+            <h2 className="section-title">🎯 Project Overview</h2>
+            <div className="overview-grid">
+              <div className="overview-text">
+                <p className="overview-description">
+                  CloudCalc Pro is a comprehensive, full-stack web application designed to solve the complex problem 
+                  of cloud cost comparison and optimization. It provides businesses and developers with an intuitive 
+                  platform to compare infrastructure costs across major cloud providers, make data-driven decisions, 
+                  and optimize their cloud spending.
+                </p>
+                <div className="key-benefits">
+                  <h3>🌟 Key Benefits</h3>
+                  <ul className="benefits-list">
+                    <li>💰 Save 20-40% on cloud costs through optimization</li>
+                    <li>⏱️ Reduce analysis time from hours to minutes</li>
+                    <li>📊 Make data-driven cloud architecture decisions</li>
+                    <li>🔍 Compare AWS, Azure, and GCP side-by-side</li>
+                    <li>📈 Track cost trends and optimization opportunities</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="stats-grid">
+                {projectStats.map((stat, index) => (
+                  <div key={index} className="stat-card">
+                    <div className="stat-icon">{stat.icon}</div>
+                    <div className="stat-value">{stat.value}</div>
+                    <div className="stat-label">{stat.label}</div>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Features Section */}
-      <section style={{
-        padding: '80px 20px',
-        backgroundColor: 'rgba(255, 255, 255, 0.95)'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <h2 style={{
-              fontSize: '2.5rem',
-              fontWeight: 'bold',
-              color: '#2d3748',
-              marginBottom: '20px'
-            }}>
-              What Makes Us Different
-            </h2>
-            <p style={{
-              fontSize: '1.2rem',
-              color: '#4a5568',
-              maxWidth: '600px',
-              margin: '0 auto'
-            }}>
-              We focus on accuracy, transparency, and ease of use to provide 
-              the best cloud cost comparison experience.
-            </p>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '30px'
-          }}>
-            {features.map((feature, index) => (
-              <div key={index} style={{
-                backgroundColor: 'white',
-                padding: '30px',
-                borderRadius: '15px',
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)',
-                textAlign: 'center',
-                border: '1px solid #e2e8f0'
-              }}>
-                <div style={{
-                  width: '70px',
-                  height: '70px',
-                  backgroundColor: '#667eea',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 20px auto',
-                  color: 'white',
-                  fontSize: '1rem',
-                  fontWeight: 'bold'
-                }}>
-                  {feature.icon}
+        {/* Technology Stack */}
+        <section className="technology-section">
+          <div className="section-content">
+            <h2 className="section-title">🛠️ Technology Stack</h2>
+            <div className="tech-grid">
+              {technologies.map((tech, index) => (
+                <div key={index} className="tech-card">
+                  <div className="tech-icon">{tech.icon}</div>
+                  <div className="tech-name">{tech.name}</div>
+                  <div className="tech-category">{tech.category}</div>
                 </div>
-                <h3 style={{
-                  fontSize: '1.3rem',
-                  fontWeight: 'bold',
-                  color: '#2d3748',
-                  marginBottom: '15px'
-                }}>
-                  {feature.title}
-                </h3>
-                <p style={{
-                  color: '#4a5568',
-                  fontSize: '0.95rem',
-                  lineHeight: '1.6'
-                }}>
-                  {feature.description}
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Meet Our Team Section - UPDATED */}
+        <section className="team-section">
+          <div className="section-content">
+            <div className="team-header">
+              <h2 className="section-title">👥 Meet Our Team</h2>
+              <p className="team-description">
+                <strong>This project was created by a talented team of final year Computer Science students.</strong>
+                <br />
+                Each team member contributed their specialized skills to build this comprehensive cloud cost calculator, 
+                combining expertise in frontend development, backend architecture, documentation, and data research.
+              </p>
+            </div>
+
+            <div className="team-grid">
+              {teamMembers.map((member, index) => (
+                <div key={member.id} className="team-card">
+                  <div className="card-header">
+                    <div className="avatar-section">
+                      <div className={`avatar bg-gradient-to-br ${member.gradient}`}>
+                        <span className="avatar-emoji">{member.avatar}</span>
+                      </div>
+                      <div className="member-basic-info">
+                        <h3 className="member-name">{member.name}</h3>
+                        <p className="member-role">{member.role}</p>
+                        <span className="specialization-tag">{member.specialization}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="card-content">
+                    <p className="member-description">{member.description}</p>
+                    
+                    <div className="skills-section">
+                      <h4 className="skills-title">💡 Technical Skills</h4>
+                      <div className="skills-tags">
+                        {member.skills.map((skill, skillIndex) => (
+                          <span key={skillIndex} className="skill-tag">{skill}</span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="achievements-section">
+                      <h4 className="achievements-title">🏆 Key Contributions</h4>
+                      <ul className="achievements-list">
+                        {member.achievements.map((achievement, achIndex) => (
+                          <li key={achIndex} className="achievement-item">{achievement}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="card-footer">
+                    <div className="social-links">
+                      <a href={member.github} className="social-link github" target="_blank" rel="noopener noreferrer">
+                        <span className="link-icon">📱</span>
+                        <span className="link-text">GitHub</span>
+                      </a>
+                      <a href={member.portfolio} className="social-link portfolio" target="_blank" rel="noopener noreferrer">
+                        <span className="link-icon">🌐</span>
+                        <span className="link-text">Portfolio</span>
+                      </a>
+                      <a href={member.linkedin} className="social-link linkedin" target="_blank" rel="noopener noreferrer">
+                        <span className="link-icon">💼</span>
+                        <span className="link-text">LinkedIn</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Academic Project Information */}
+        <section className="academic-section">
+          <div className="section-content">
+            <h2 className="section-title">🎓 Academic Excellence</h2>
+            <div className="academic-grid">
+              <div className="academic-card">
+                <div className="academic-icon">🎓</div>
+                <h3 className="academic-title">Final Year Project</h3>
+                <p className="academic-description">
+                  Developed as part of our Computer Science curriculum, this project demonstrates 
+                  real-world application of full-stack development principles and modern web technologies.
                 </p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section style={{
-        padding: '80px 20px',
-        backgroundColor: 'rgba(255, 255, 255, 0.1)'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <h2 style={{
-              fontSize: '2.5rem',
-              fontWeight: 'bold',
-              color: 'white',
-              marginBottom: '20px'
-            }}>
-              By the Numbers
-            </h2>
-            <p style={{
-              fontSize: '1.2rem',
-              color: 'rgba(255, 255, 255, 0.9)'
-            }}>
-              Our platform reach and capabilities
-            </p>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '30px'
-          }}>
-            {stats.map((stat, index) => (
-              <div key={index} style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                padding: '40px 30px',
-                borderRadius: '15px',
-                textAlign: 'center',
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)'
-              }}>
-                <div style={{
-                  fontSize: '3rem',
-                  fontWeight: 'bold',
-                  color: '#667eea',
-                  marginBottom: '10px'
-                }}>
-                  {stat.value}
-                </div>
-                <div style={{
-                  fontSize: '1rem',
-                  fontWeight: 'bold',
-                  color: '#2d3748',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section style={{
-        padding: '80px 20px',
-        backgroundColor: 'rgba(255, 255, 255, 0.95)'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <h2 style={{
-              fontSize: '2.5rem',
-              fontWeight: 'bold',
-              color: '#2d3748',
-              marginBottom: '20px'
-            }}>
-              Meet Our Team
-            </h2>
-            <p style={{
-              fontSize: '1.2rem',
-              color: '#4a5568'
-            }}>
-              This project was created by a talented team of final year computer science students
-            </p>
-          </div>
-
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '30px',
-            maxWidth: '1200px',
-            margin: '0 auto'
-          }}>
-            {team.map((member, index) => (
-              <div key={index} style={{
-                backgroundColor: 'white',
-                borderRadius: '15px',
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)',
-                padding: '40px',
-                textAlign: 'center',
-                border: '1px solid #e2e8f0'
-              }}>
-                <div style={{
-                  width: '120px',
-                  height: '120px',
-                  backgroundColor: '#667eea',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 20px auto',
-                  color: 'white',
-                  fontSize: '2rem',
-                  fontWeight: 'bold'
-                }}>
-                  {member.avatar}
-                </div>
-                <h3 style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 'bold',
-                  color: '#2d3748',
-                  marginBottom: '10px'
-                }}>
-                  {member.name}
-                </h3>
-                <p style={{
-                  color: '#667eea',
-                  fontWeight: 'bold',
-                  marginBottom: '15px',
-                  fontSize: '1.1rem'
-                }}>
-                  {member.role}
-                </p>
-                <p style={{
-                  color: '#4a5568',
-                  marginBottom: '20px',
-                  lineHeight: '1.6'
-                }}>
-                  {member.description}
-                </p>
-                <div style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '10px',
-                  justifyContent: 'center'
-                }}>
-                  {member.skills.map((skill, skillIndex) => (
-                    <span key={skillIndex} style={{
-                      backgroundColor: '#667eea',
-                      color: 'white',
-                      padding: '5px 15px',
-                      borderRadius: '20px',
-                      fontSize: '0.9rem',
-                      fontWeight: '500'
-                    }}>
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Technology Stack */}
-      <section style={{
-        padding: '80px 20px',
-        backgroundColor: 'rgba(255, 255, 255, 0.1)'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <h2 style={{
-              fontSize: '2.5rem',
-              fontWeight: 'bold',
-              color: 'white',
-              marginBottom: '20px'
-            }}>
-              Built with Modern Technology
-            </h2>
-            <p style={{
-              fontSize: '1.2rem',
-              color: 'rgba(255, 255, 255, 0.9)',
-              marginBottom: '20px'
-            }}>
-              This application showcases modern web development practices and technologies
-            </p>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '30px'
-          }}>
-            {technologies.map((tech, index) => (
-              <div key={index} style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                padding: '30px',
-                borderRadius: '15px',
-                textAlign: 'center',
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)'
-              }}>
-                <div style={{
-                  width: '60px',
-                  height: '60px',
-                  backgroundColor: '#667eea',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 15px auto',
-                  color: 'white',
-                  fontSize: '1.5rem',
-                  fontWeight: 'bold'
-                }}>
-                  {tech.icon}
-                </div>
-                <h4 style={{
-                  fontWeight: 'bold',
-                  color: '#2d3748',
-                  marginBottom: '5px',
-                  fontSize: '1.1rem'
-                }}>
-                  {tech.name}
-                </h4>
-                <p style={{
-                  fontSize: '0.9rem',
-                  color: '#4a5568'
-                }}>
-                  {tech.description}
+              <div className="academic-card">
+                <div className="academic-icon">👥</div>
+                <h3 className="academic-title">Team Collaboration</h3>
+                <p className="academic-description">
+                  Successfully coordinated a 4-member team with specialized roles, showcasing 
+                  professional software development practices and project management skills.
                 </p>
               </div>
-            ))}
+              <div className="academic-card">
+                <div className="academic-icon">🚀</div>
+                <h3 className="academic-title">Industry-Ready Solution</h3>
+                <p className="academic-description">
+                  Built a production-ready application that addresses real business needs in 
+                  cloud cost optimization, bridging academic learning with industry requirements.
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact Section */}
-      <section style={{
-        padding: '80px 20px',
-        backgroundColor: '#667eea',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h2 style={{
-            fontSize: '2.5rem',
-            fontWeight: 'bold',
-            color: 'white',
-            marginBottom: '20px'
-          }}>
-            Questions or Feedback?
-          </h2>
-          <p style={{
-            fontSize: '1.2rem',
-            color: 'rgba(255, 255, 255, 0.9)',
-            marginBottom: '40px',
-            maxWidth: '600px',
-            margin: '0 auto 40px auto',
-            lineHeight: '1.6'
-          }}>
-            We would love to hear from you! Whether you have questions, suggestions, 
-            or just want to chat about cloud computing and cost optimization.
-          </p>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
-            alignItems: 'center'
-          }}>
-            <a
-              href="mailto:ayushraj785403@gmail.com"
-              style={{
-                display: 'inline-block',
-                padding: '15px 30px',
-                backgroundColor: 'white',
-                color: '#667eea',
-                textDecoration: 'none',
-                borderRadius: '8px',
-                fontSize: '1.1rem',
-                fontWeight: 'bold',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              Send Email
-            </a>
-            <a
-              href="https://github.com/ayushraj7854/cloud-cost-calculator"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-block',
-                padding: '15px 30px',
-                backgroundColor: 'transparent',
-                color: 'white',
-                textDecoration: 'none',
-                borderRadius: '8px',
-                fontSize: '1.1rem',
-                fontWeight: 'bold',
-                border: '2px solid white',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              View on GitHub
-            </a>
+        {/* Team Collaboration */}
+        <section className="collaboration-section">
+          <div className="section-content">
+            <h2 className="section-title">🤝 Team Specializations</h2>
+            <div className="collaboration-grid">
+              <div className="collab-card">
+                <div className="collab-icon">🎨</div>
+                <h3 className="collab-title">Frontend Development</h3>
+                <p className="collab-description">
+                  <strong>Ayush Raj</strong> - Modern React development with professional UI/UX design, 
+                  responsive layouts, and interactive data visualizations.
+                </p>
+              </div>
+              <div className="collab-card">
+                <div className="collab-icon">⚙️</div>
+                <h3 className="collab-title">Backend Architecture</h3>
+                <p className="collab-description">
+                  <strong>Aditya Mishra</strong> - Scalable Node.js/Express.js API development with 
+                  comprehensive security, logging, and monitoring systems.
+                </p>
+              </div>
+              <div className="collab-card">
+                <div className="collab-icon">📚</div>
+                <h3 className="collab-title">Documentation & Management</h3>
+                <p className="collab-description">
+                  <strong>Aman Pratap Shahi</strong> - Comprehensive project documentation, user guides, 
+                  and team coordination for seamless development workflow.
+                </p>
+              </div>
+              <div className="collab-card">
+                <div className="collab-icon">📊</div>
+                <h3 className="collab-title">Data Research & Collection</h3>
+                <p className="collab-description">
+                  <strong>Anand Singh</strong> - Comprehensive cloud pricing research, data validation, 
+                  and structured dataset creation for accurate calculations.
+                </p>
+              </div>
+            </div>
+            <div className="team-motto">
+              <p className="motto-text">
+                🌟 <strong>Together, we transformed academic knowledge into a practical, industry-ready cloud cost calculator.</strong> 🌟
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Project Impact */}
+        <section className="impact-section">
+          <div className="section-content">
+            <h2 className="section-title">🚀 Project Impact & Learning</h2>
+            <div className="impact-grid">
+              <div className="impact-card">
+                <h3 className="impact-title">💼 Business Value</h3>
+                <ul className="impact-list">
+                  <li>Solves real-world cloud cost optimization challenges</li>
+                  <li>Provides practical tool for businesses and developers</li>
+                  <li>Demonstrates understanding of industry needs</li>
+                  <li>Creates measurable cost-saving opportunities</li>
+                </ul>
+              </div>
+              <div className="impact-card">
+                <h3 className="impact-title">🎓 Technical Learning</h3>
+                <ul className="impact-list">
+                  <li>Full-stack development with modern technologies</li>
+                  <li>RESTful API design and implementation</li>
+                  <li>Database integration and data management</li>
+                  <li>Production-ready code quality and testing</li>
+                </ul>
+              </div>
+              <div className="impact-card">
+                <h3 className="impact-title">👥 Professional Skills</h3>
+                <ul className="impact-list">
+                  <li>Team collaboration and project management</li>
+                  <li>Version control and code review practices</li>
+                  <li>Documentation and communication skills</li>
+                  <li>Problem-solving and critical thinking</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="cta-section">
+          <div className="cta-content">
+            <h2 className="cta-title">Ready to Optimize Your Cloud Costs?</h2>
+            <p className="cta-description">
+              Try CloudCalc Pro today and discover how much you can save on your cloud infrastructure!
+            </p>
+            <div className="cta-buttons">
+              <a href="/calculator" className="cta-button primary">
+                🚀 Start Calculating
+              </a>
+              <a href="https://github.com/YOUR_USERNAME/cloud-cost-calculator" className="cta-button secondary" target="_blank" rel="noopener noreferrer">
+                📱 View on GitHub
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 };
