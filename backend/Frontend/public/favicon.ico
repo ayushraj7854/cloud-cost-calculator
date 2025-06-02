@@ -1,0 +1,277 @@
+# This is a binary file. You can:
+# 1. Use any favicon generator online (like favicon.io)
+# 2. Create a 32x32 pixel icon
+# 3. Or use this simple SVG converted to ICO:
+
+# For now, create a simple placeholder favicon.svg and rename to favicon.ico
+# Or download a cloud icon from any free icon site like:
+# - https://favicon.io/emoji-favicons/cloud/
+# - https://www.flaticon.com/free-icons/cloud
+# - https://heroicons.com/ (cloud icon)
+
+# Alternatively, create this file content:
+# (This is a base64 encoded simple favicon - copy this as-is into favicon.ico)
+```
+
+## 4. frontend/src/utils/formatting.js  
+```javascript
+// Additional formatting utilities beyond the main formatters.js
+
+/**
+ * Format API response data
+ */
+export const formatApiResponse = (response) => {
+  if (!response || typeof response !== 'object') {
+    return { success: false, data: null, message: 'Invalid response' };
+  }
+
+  return {
+    success: response.success || false,
+    data: response.data || null,
+    message: response.message || '',
+    timestamp: response.timestamp || new Date().toISOString(),
+  };
+};
+
+/**
+ * Format configuration for display
+ */
+export const formatConfigurationDisplay = (config) => {
+  if (!config) return {};
+
+  const formatted = {};
+
+  // Format compute configuration
+  if (config.compute) {
+    formatted.compute = {
+      'Instance Type': config.compute.instanceType || 'Not specified',
+      'Hours per Month': `${config.compute.hours || 0} hours`,
+      'Storage': `${config.compute.storage || 0} GB`,
+      'vCPUs': config.compute.vcpus || 'Auto',
+      'Memory': config.compute.memory ? `${config.compute.memory} GB` : 'Auto',
+    };
+  }
+
+  // Format storage configuration
+  if (config.storage) {
+    formatted.storage = {
+      'Storage Type': config.storage.type || 'Standard',
+      'Size': `${config.storage.size || 0} GB`,
+      'Monthly Requests': (config.storage.requests || 0).toLocaleString(),
+    };
+  }
+
+  // Format database configuration
+  if (config.database) {
+    formatted.database = {
+      'Database Type': config.database.type || 'MySQL',
+      'Instance Class': config.database.instanceClass || 'db.t3.micro',
+      'Storage': `${config.database.storage || 20} GB`,
+      'Backup Retention': `${config.database.backupRetention || 7} days`,
+    };
+  }
+
+  // Format networking configuration
+  if (config.networking) {
+    formatted.networking = {
+      'Data Transfer': `${config.networking.dataTransfer || 0} GB`,
+      'Load Balancer': config.networking.loadBalancer ? 'Yes' : 'No',
+      'Monthly Requests': (config.networking.requests || 0).toLocaleString(),
+    };
+  }
+
+  // Add region
+  if (config.region) {
+    formatted.region = config.region;
+  }
+
+  return formatted;
+};
+
+/**
+ * Format error messages for user display
+ */
+export const formatErrorMessage = (error) => {
+  if (typeof error === 'string') {
+    return error;
+  }
+
+  if (error?.response?.data?.message) {
+    return error.response.data.message;
+  }
+
+  if (error?.message) {
+    return error.message;
+  }
+
+  if (Array.isArray(error)) {
+    return error.join(', ');
+  }
+
+  return 'An unexpected error occurred';
+};
+
+/**
+ * Format validation errors
+ */
+export const formatValidationErrors = (errors) => {
+  if (!errors || !Array.isArray(errors)) {
+    return [];
+  }
+
+  return errors.map(error => ({
+    field: error.field || error.param || 'unknown',
+    message: error.message || error.msg || 'Invalid value',
+    value: error.value,
+  }));
+};
+
+/**
+ * Format chart data for display
+ */
+export const formatChartData = (pricingData) => {
+  if (!pricingData || !Array.isArray(pricingData)) {
+    return { labels: [], datasets: [] };
+  }
+
+  const labels = pricingData.map(provider => 
+    provider.provider.charAt(0).toUpperCase() + provider.provider.slice(1)
+  );
+
+  const data = pricingData.map(provider => provider.totalCost);
+
+  const backgroundColors = pricingData.map(provider => {
+    switch (provider.provider) {
+      case 'aws': return 'rgba(255, 153, 0, 0.8)';
+      case 'azure': return 'rgba(0, 120, 212, 0.8)';
+      case 'gcp': return 'rgba(66, 133, 244, 0.8)';
+      default: return 'rgba(107, 114, 128, 0.8)';
+    }
+  });
+
+  const borderColors = pricingData.map(provider => {
+    switch (provider.provider) {
+      case 'aws': return 'rgba(255, 153, 0, 1)';
+      case 'azure': return 'rgba(0, 120, 212, 1)';
+      case 'gcp': return 'rgba(66, 133, 244, 1)';
+      default: return 'rgba(107, 114, 128, 1)';
+    }
+  });
+
+  return {
+    labels,
+    datasets: [{
+      label: 'Monthly Cost (USD)',
+      data,
+      backgroundColor: backgroundColors,
+      borderColor: borderColors,
+      borderWidth: 2,
+    }],
+  };
+};
+
+/**
+ * Format time ago display
+ */
+export const formatTimeAgo = (timestamp) => {
+  const now = new Date();
+  const time = new Date(timestamp);
+  const diffInSeconds = Math.floor((now - time) / 1000);
+
+  const intervals = {
+    year: 31536000,
+    month: 2592000,
+    week: 604800,
+    day: 86400,
+    hour: 3600,
+    minute: 60,
+  };
+
+  for (const [unit, seconds] of Object.entries(intervals)) {
+    const interval = Math.floor(diffInSeconds / seconds);
+    if (interval >= 1) {
+      return `${interval} ${unit}${interval > 1 ? 's' : ''} ago`;
+    }
+  }
+
+  return 'Just now';
+};
+
+/**
+ * Format file size for display
+ */
+export const formatFileSize = (bytes) => {
+  if (bytes === 0) return '0 B';
+  if (!bytes) return 'Unknown';
+
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
+};
+
+/**
+ * Format URL parameters
+ */
+export const formatUrlParams = (params) => {
+  if (!params || typeof params !== 'object') {
+    return '';
+  }
+
+  const searchParams = new URLSearchParams();
+  
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== null && value !== undefined && value !== '') {
+      if (Array.isArray(value)) {
+        value.forEach(v => searchParams.append(key, v.toString()));
+      } else {
+        searchParams.append(key, value.toString());
+      }
+    }
+  });
+
+  const paramString = searchParams.toString();
+  return paramString ? `?${paramString}` : '';
+};
+
+/**
+ * Format comparison results for export
+ */
+export const formatExportData = (pricingData, configuration) => {
+  return {
+    metadata: {
+      exportedAt: new Date().toISOString(),
+      version: '1.0',
+      source: 'Cloud Cost Calculator',
+    },
+    configuration: formatConfigurationDisplay(configuration),
+    results: pricingData.map(provider => ({
+      provider: provider.provider.toUpperCase(),
+      totalCost: provider.totalCost,
+      breakdown: provider.breakdown?.map(service => ({
+        service: service.service,
+        cost: service.cost,
+        details: service.details,
+      })) || [],
+    })),
+    summary: {
+      lowestCost: Math.min(...pricingData.map(p => p.totalCost)),
+      highestCost: Math.max(...pricingData.map(p => p.totalCost)),
+      averageCost: pricingData.reduce((sum, p) => sum + p.totalCost, 0) / pricingData.length,
+      potentialSavings: Math.max(...pricingData.map(p => p.totalCost)) - Math.min(...pricingData.map(p => p.totalCost)),
+    },
+  };
+};
+
+export default {
+  formatApiResponse,
+  formatConfigurationDisplay,
+  formatErrorMessage,
+  formatValidationErrors,
+  formatChartData,
+  formatTimeAgo,
+  formatFileSize,
+  formatUrlParams,
+  formatExportData,
+};
